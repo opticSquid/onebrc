@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ObebrcApplication {
+public class OnebrcApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ObebrcApplication.class, args);
+		SpringApplication.run(OnebrcApplication.class, args);
 	}
 
 }
