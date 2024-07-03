@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=PkNLm@#2357
+      - POSTGRES_DB=onebrc
+    volumes:
+      - onebrcData:/var/lib/postgresql/data
+volumes:
+  onebrcData:
+    driver: local
