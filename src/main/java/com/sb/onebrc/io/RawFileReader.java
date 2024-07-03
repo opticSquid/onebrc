@@ -14,7 +14,7 @@ public class RawFileReader {
     FlatFileItemReader<RawData> reader() {
         return new FlatFileItemReaderBuilder<RawData>()
                 .name("rawDataReader")
-                .resource(new ClassPathResource("weather_stations.csv"))
+                .resource(new ClassPathResource("weather_stations_test.csv"))
                 .delimited()
                 .names("station", "temp")
                 .targetType(RawData.class)

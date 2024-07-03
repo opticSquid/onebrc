@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.sb.onebrc.entity.RawData;
 import com.sb.onebrc.listener.JobCompletionNotificationListener;
+import com.sb.onebrc.listener.ReadWriteStepExecutionListner;
 
 @Configuration
 public class JobConfig {
@@ -32,11 +33,13 @@ public class JobConfig {
 
     @Bean
     Step readAndInsert(JobRepository jobRepository, DataSourceTransactionManager transactionManager,
-            FlatFileItemReader<RawData> reader, JdbcBatchItemWriter<RawData> writer) {
+            FlatFileItemReader<RawData> reader, ReadWriteStepExecutionListner readWriteStepExecutionListner,
+            JdbcBatchItemWriter<RawData> writer) {
         return new StepBuilder("read and write data", jobRepository)
                 .<RawData, RawData>chunk(10000, transactionManager)
                 .reader(reader)
                 .writer(writer)
+                .listener(readWriteStepExecutionListner)
                 .build();
     }
 }
