@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
-@EnableScheduling
+// @Component
+// @EnableScheduling
 public class OnebrcLauncher {
     private static final Logger log = LoggerFactory.getLogger(OnebrcLauncher.class);
     private final JobLauncher jobLauncher;
@@ -25,7 +25,7 @@ public class OnebrcLauncher {
         this.oneBillionRowChallengeJob = oneBillionRowChallengeJob;
     }
 
-    @Scheduled(cron = "${onebrc.run.cron}", zone = "GMT")
+    // @Scheduled(cron = "${onebrc.run.cron}", zone = "GMT")
     public void runJob() {
         launchJob();
     }

@@ -10,6 +10,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.sb.onebrc.entity.RawData;
@@ -38,15 +39,14 @@ public class JobConfig {
     @Bean
     Step readAndInsert(JobRepository jobRepository, DataSourceTransactionManager transactionManager,
             FlatFileItemReader<RawData> reader,
-            RawDataProcessor<RawData> rawDataProcessor,
             JdbcBatchItemWriter<RawData> writer, ReadWriteStepExecutionListner readWriteStepExecutionListner) {
         return new StepBuilder("read and write data", jobRepository)
                 .<RawData, RawData>chunk(chunkSize, transactionManager)
                 .reader(reader)
-                .processor(rawDataProcessor)
                 .writer(writer)
                 .listener(readWriteStepExecutionListner)
                 .faultTolerant()
+                .taskExecutor(new SimpleAsyncTaskExecutor())
                 .build();
     }
 }
