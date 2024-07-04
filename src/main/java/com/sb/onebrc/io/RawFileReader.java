@@ -1,5 +1,6 @@
 package com.sb.onebrc.io;
 
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -15,6 +16,7 @@ import com.sb.onebrc.entity.RawData;
 @Configuration
 public class RawFileReader {
     @Bean
+    @StepScope
     FlatFileItemReader<RawData> reader(@Value("#{jobParameters['file']}") String inputFile) {
         FlatFileItemReader<RawData> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(inputFile));
@@ -37,6 +39,7 @@ public class RawFileReader {
     }
 
     @Bean
+    @StepScope
     FlatFileItemReader<RawData> originalReader(@Value("#{jobParameters['file']}") String inputFile) {
         return new FlatFileItemReaderBuilder<RawData>()
                 .name("originalRawDataReader")
