@@ -15,7 +15,7 @@ import com.sb.onebrc.entity.RawData;
 @Configuration
 public class RawFileReader {
     @Bean
-    FlatFileItemReader<RawData> reader(@Value("#{jobParameters['input.file']}") String inputFile) {
+    FlatFileItemReader<RawData> reader(@Value("#{jobParameters['file']}") String inputFile) {
         FlatFileItemReader<RawData> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(inputFile));
         reader.setLineMapper(new DefaultLineMapper<RawData>() {
@@ -37,7 +37,7 @@ public class RawFileReader {
     }
 
     @Bean
-    FlatFileItemReader<RawData> originalReader(@Value("#{jobParameters['input.file']}") String inputFile) {
+    FlatFileItemReader<RawData> originalReader(@Value("#{jobParameters['file']}") String inputFile) {
         return new FlatFileItemReaderBuilder<RawData>()
                 .name("originalRawDataReader")
                 .resource(new FileSystemResource(inputFile))

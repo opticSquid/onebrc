@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "log.level.com.sb.onebrc",
+    "type": "java.lang.String",
+    "description": "Log level for my own package"
+  },
+  {
+    "name": "onebrc.run.cron",
+    "type": "java.lang.String",
+    "description": "CRON expression for running the job in scheduled manner"
+  },
+  {
+    "name": "onebrc.file",
+    "type": "java.lang.String",
+    "description": "Challenge source file"
+  },
+  {
+    "name": "onebrc.chunksize",
+    "type": "java.lang.String",
+    "description": "Chunk size for the writing raw data to db"
+  }
+]}
