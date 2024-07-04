@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.sb.onebrc.entity.RawData;
@@ -24,6 +25,9 @@ public class JobConfig {
     @Value("${onebrc.chunksize}")
     private Integer chunkSize;
 
+    @Value("${onebrc.concurreny}")
+    private Integer concurrenyLimit;
+
     public JobConfig(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
@@ -36,6 +40,13 @@ public class JobConfig {
                 .build();
     }
 
+    TaskExecutor asyncExecutor(String name) {
+        SimpleAsyncTaskExecutor tx = new SimpleAsyncTaskExecutor(name);
+        tx.setConcurrencyLimit(concurrenyLimit);
+        tx.setVirtualThreads(true);
+        return tx;
+    }
+
     @Bean
     Step readAndInsert(JobRepository jobRepository, DataSourceTransactionManager transactionManager,
             FlatFileItemReader<RawData> reader,
@@ -46,7 +57,7 @@ public class JobConfig {
                 .writer(writer)
                 .listener(readWriteStepExecutionListner)
                 .faultTolerant()
-                .taskExecutor(new SimpleAsyncTaskExecutor())
+                .taskExecutor(asyncExecutor("oneBrc"))
                 .build();
     }
 }

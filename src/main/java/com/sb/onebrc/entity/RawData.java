@@ -23,4 +23,9 @@ public class RawData {
                 this.temp = temp;
         }
 
+        @Override
+        public String toString() {
+                return "RawData [station=" + station + ", temp=" + temp + "]";
+        }
+
 }

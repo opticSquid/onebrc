@@ -1,6 +1,6 @@
 {"properties": [
   {
-    "name": "log.level.com.sb.onebrc",
+    "name": "logging.level.com.sb.onebrc",
     "type": "java.lang.String",
     "description": "Log level for my own package"
   },
@@ -18,5 +18,10 @@
     "name": "onebrc.chunksize",
     "type": "java.lang.String",
     "description": "Chunk size for the writing raw data to db"
+  },
+  {
+    "name": "onebrc.concurreny",
+    "type": "java.lang.String",
+    "description": "Total number of parallel operations allowed"
   }
 ]}
