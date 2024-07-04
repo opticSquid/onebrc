@@ -7,11 +7,6 @@ public class RawData {
         public RawData() {
         }
 
-        public RawData(String station, Float temp) {
-                this.station = station;
-                this.temp = temp;
-        }
-
         public String getStation() {
                 return station;
         }
