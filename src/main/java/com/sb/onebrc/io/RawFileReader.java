@@ -9,6 +9,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.FileSystemResource;
 
 import com.sb.onebrc.entity.RawData;
@@ -16,6 +17,7 @@ import com.sb.onebrc.entity.RawData;
 @Configuration
 public class RawFileReader {
     @Bean
+    @Primary
     @StepScope
     FlatFileItemReader<RawData> reader(@Value("#{jobParameters['file']}") String inputFile) {
         FlatFileItemReader<RawData> reader = new FlatFileItemReader<>();

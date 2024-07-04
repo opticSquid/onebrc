@@ -13,7 +13,7 @@ public class ReadWriteStepExecutionListner implements StepExecutionListener {
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        log.info("NUmber of rows read: {}", stepExecution.getReadCount());
+        log.info("Number of rows read: {}", stepExecution.getReadCount());
         return null;
     }
 }

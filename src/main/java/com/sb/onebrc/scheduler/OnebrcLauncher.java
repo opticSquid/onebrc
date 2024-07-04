@@ -37,7 +37,7 @@ public class OnebrcLauncher {
                     .toJobParameters();
             jobLauncher.run(oneBillionRowChallengeJob, jobParameters);
         } catch (Exception ex) {
-            log.error("could not launc 1 brc job", ex);
+            log.error("could not launch 1 brc job", ex);
         }
 
     }
