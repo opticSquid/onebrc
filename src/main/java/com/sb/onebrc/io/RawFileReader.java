@@ -1,7 +1,9 @@
 package com.sb.onebrc.io;
 
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -12,12 +14,23 @@ import com.sb.onebrc.entity.RawData;
 public class RawFileReader {
     @Bean
     FlatFileItemReader<RawData> reader() {
-        return new FlatFileItemReaderBuilder<RawData>()
-                .name("rawDataReader")
-                .resource(new ClassPathResource("weather_stations_test.csv"))
-                .delimited()
-                .names("station", "temp")
-                .targetType(RawData.class)
-                .build();
+        FlatFileItemReader<RawData> reader = new FlatFileItemReader<>();
+        reader.setResource(new ClassPathResource("measurements.csv"));
+        reader.setLineMapper(new DefaultLineMapper<RawData>() {
+            {
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+                        setNames(new String[] { "station", "temp" });
+                        setDelimiter(";");
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<RawData>() {
+                    {
+                        setTargetType(RawData.class);
+                    }
+                });
+            }
+        });
+        return reader;
     }
 }
