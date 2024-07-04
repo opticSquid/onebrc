@@ -33,13 +33,14 @@ public class JobConfig {
 
     @Bean
     Step readAndInsert(JobRepository jobRepository, DataSourceTransactionManager transactionManager,
-            FlatFileItemReader<RawData> reader, ReadWriteStepExecutionListner readWriteStepExecutionListner,
+            FlatFileItemReader<RawData> originalReader, ReadWriteStepExecutionListner readWriteStepExecutionListner,
             JdbcBatchItemWriter<RawData> writer) {
         return new StepBuilder("read and write data", jobRepository)
                 .<RawData, RawData>chunk(10000, transactionManager)
-                .reader(reader)
+                .reader(originalReader)
                 .writer(writer)
                 .listener(readWriteStepExecutionListner)
+                .faultTolerant()
                 .build();
     }
 }

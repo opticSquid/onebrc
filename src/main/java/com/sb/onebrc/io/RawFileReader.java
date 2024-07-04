@@ -5,9 +5,9 @@ import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 import com.sb.onebrc.entity.RawData;
@@ -15,9 +15,9 @@ import com.sb.onebrc.entity.RawData;
 @Configuration
 public class RawFileReader {
     @Bean
-    FlatFileItemReader<RawData> reader() {
+    FlatFileItemReader<RawData> reader(@Value("#{jobParameters['input.file']}") String inputFile) {
         FlatFileItemReader<RawData> reader = new FlatFileItemReader<>();
-        reader.setResource(new FileSystemResource("measurements.csv"));
+        reader.setResource(new FileSystemResource(inputFile));
         reader.setLineMapper(new DefaultLineMapper<RawData>() {
             {
                 setLineTokenizer(new DelimitedLineTokenizer() {
@@ -37,10 +37,10 @@ public class RawFileReader {
     }
 
     @Bean
-    FlatFileItemReader<RawData> originalReader() {
+    FlatFileItemReader<RawData> originalReader(@Value("#{jobParameters['input.file']}") String inputFile) {
         return new FlatFileItemReaderBuilder<RawData>()
                 .name("originalRawDataReader")
-                .resource(new FileSystemResource("mesasurements.csv"))
+                .resource(new FileSystemResource(inputFile))
                 .delimited()
                 .names("station", "temp")
                 .targetType(RawData.class)
